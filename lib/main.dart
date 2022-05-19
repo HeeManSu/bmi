@@ -61,7 +61,10 @@ class _BmiCalculatorState extends State<BmiCalculator> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-               
+                children: [
+                  RadioButton("Man", Colors.blue, 0),
+                  RadioButton("Woman", Colors.pink, 1),
+                ],
               ),
               const SizedBox(
                 height: 20.0,
@@ -129,7 +132,7 @@ class _BmiCalculatorState extends State<BmiCalculator> {
                       weight = double.parse(weightcontroller.value.text);
                     });
 
-                  
+                    result = calculateBmi(height, weight);
                   },
                   color: Colors.blue,
                   child: const Text(
@@ -176,4 +179,48 @@ class _BmiCalculatorState extends State<BmiCalculator> {
     );
   }
 
+  String calculateBmi(double height, double weight) {
+    double finalresult = weight / (height * height / 10000);
+    String bmi = finalresult.toStringAsFixed(2);
+    return bmi;
+  }
+
+  void changeindex(int index) {
+    setState(() {
+      currentindex = index;
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget RadioButton(String value, Color color, int index) {
+    return Expanded(
+      
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12.0),
+        height: 50.0,
+        
+        child: Column(
+          children: [
+            FlatButton(
+              onPressed: () {
+                changeindex(index);
+              },
+              color: currentindex == index ? color : Colors.grey[200],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: currentindex == index ? Colors.white : color,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
